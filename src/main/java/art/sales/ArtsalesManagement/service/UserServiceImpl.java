@@ -1,8 +1,10 @@
 package art.sales.ArtsalesManagement.service;
 
+import art.sales.ArtsalesManagement.dao.request.CreateOrderRequest;
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
 import art.sales.ArtsalesManagement.dao.request.RegisterUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
+import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.Art;
 import art.sales.ArtsalesManagement.dto.model.Role;
@@ -16,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,21 +27,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserServices {
     private final UserRepository userRepository;
+    private final OrderService orderService;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User registerUser(RegisterUserRequest registerUserRequest) {
-        User registered = User.builder()
-                .address(registerUserRequest.getAddress())
-                .email(registerUserRequest.getEmail())
-                .firstName(registerUserRequest.getFirstName())
-                .lastName(registerUserRequest.getLastName())
-                .phoneNo(registerUserRequest.getPhoneNo())
-                .password(bCryptPasswordEncoder.encode(registerUserRequest.getPassword()))
-                .build();
-        registered.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
-       return userRepository.save(registered);
+        Optional<User> foundUser = userRepository.findUserByEmail(registerUserRequest.getEmail());
+        if (foundUser.isPresent()) {
+            throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(registerUserRequest.getEmail()));
+        } else {
+            User registered = User.builder()
+                    .address(registerUserRequest.getAddress())
+                    .email(registerUserRequest.getEmail())
+                    .firstName(registerUserRequest.getFirstName())
+                    .lastName(registerUserRequest.getLastName())
+                    .phoneNo(registerUserRequest.getPhoneNo())
+                    .password(bCryptPasswordEncoder.encode(registerUserRequest.getPassword()))
+                    .build();
+//        registered.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
+            return userRepository.save(registered);
+        }
+
     }
 
     @Override
@@ -86,26 +95,25 @@ public class UserServiceImpl implements UserServices {
     @Override
     public UpdateUserResponse updateUserProfile(UpdateUserProfileRequest updateUserProfile) {
         Optional<User> foundUser = userRepository.findById(updateUserProfile.getId());
-        if(foundUser.isEmpty()){
+        if (foundUser.isEmpty()) {
             throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(updateUserProfile.getId()));
-        }
-        else {
-            if(updateUserProfile.getAddress()!= null){
+        } else {
+            if (updateUserProfile.getAddress() != null) {
                 foundUser.get().setAddress(updateUserProfile.getAddress());
             }
-            if(updateUserProfile.getEmail()!= null){
+            if (updateUserProfile.getEmail() != null) {
                 foundUser.get().setEmail(updateUserProfile.getEmail());
             }
-            if(updateUserProfile.getFirstName()!= null){
+            if (updateUserProfile.getFirstName() != null) {
                 foundUser.get().setFirstName(updateUserProfile.getFirstName());
             }
-            if(updateUserProfile.getLastName()!= null){
+            if (updateUserProfile.getLastName() != null) {
                 foundUser.get().setLastName(updateUserProfile.getLastName());
             }
-            if(updateUserProfile.getPassword()!= null){
+            if (updateUserProfile.getPassword() != null) {
                 foundUser.get().setPassword(updateUserProfile.getPassword());
             }
-            if(updateUserProfile.getPhoneNo()!= null){
+            if (updateUserProfile.getPhoneNo() != null) {
                 foundUser.get().setPhoneNo(updateUserProfile.getPhoneNo());
             }
             userRepository.save(foundUser.get());
@@ -114,7 +122,29 @@ public class UserServiceImpl implements UserServices {
         return UpdateUserResponse.builder()
                 .userId(foundUser.get().getId())
                 .email("User with " + foundUser.get().getEmail() + " successfully updated")
-               .build();
+                .build();
+    }
+    @Override
+    public User findUserByEmail(String email) {
+        Optional<User> foundUser = userRepository.findUserByEmail(email);
+        if(foundUser.isPresent()){
+            return foundUser.get();
+        }
+        else {
+            throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(email));
+        }
+    }
+
+    @Override
+    public CreateOrderResponse createArtOrder(CreateOrderRequest createOrderRequest) {
+
+     Optional<User> foundUser =   userRepository.findById(createOrderRequest.getId());
+     if(foundUser.isPresent()){
+
+     }
+
+
+        return null;
     }
 
 }
