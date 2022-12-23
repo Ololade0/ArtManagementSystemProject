@@ -87,6 +87,16 @@ public class UserServiceImpl implements UserServices {
             if(updateUserProfile.getFirstName()!= null){
                 foundUser.get().setFirstName(updateUserProfile.getFirstName());
             }
+            if(updateUserProfile.getLastName()!= null){
+                foundUser.get().setLastName(updateUserProfile.getLastName());
+            }
+            if(updateUserProfile.getPassword()!= null){
+                foundUser.get().setPassword(updateUserProfile.getPassword());
+            }
+            if(updateUserProfile.getPhoneNo()!= null){
+                foundUser.get().setPhoneNo(updateUserProfile.getPhoneNo());
+            }
+
         }
         return null;
     }
