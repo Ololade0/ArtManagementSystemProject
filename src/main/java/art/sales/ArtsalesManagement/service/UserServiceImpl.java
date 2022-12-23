@@ -178,5 +178,17 @@ public class UserServiceImpl implements UserServices {
 
     }
 
+    @Override
+    public Page<Order> findAllOrder(FindAllOrderRequest findAllOrderRequest) {
+     Optional<User> foundUser =   userRepository.findById(findAllOrderRequest.getUserId());
+     if(foundUser.isPresent()){
+         return orderService.findAllOrders(findAllOrderRequest);
+     }
+     else {
+         throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(findAllOrderRequest.getUserId()));
+     }
+
+    }
+
 
 }

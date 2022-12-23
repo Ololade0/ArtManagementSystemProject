@@ -153,6 +153,15 @@ class UserServiceImplTest {
     @Test
     void findAllOrders(){
         FindAllOrderRequest findAllOrderRequest = FindAllOrderRequest
+                .builder()
+                .orderId(savedOrder.getOrderId())
+                .userId(registeredUser.getId())
+                .numberOfPages(2)
+                .pages(2)
+                .build();
+     Page<Order> foundOrder =   userServices.findAllOrder(findAllOrderRequest);
+        assertEquals(1L, foundOrder.getTotalElements());
+        assertThat(foundOrder.getTotalElements()).isNotNull();
     }
 
 }

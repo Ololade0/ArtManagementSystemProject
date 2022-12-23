@@ -1,7 +1,7 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.CreateOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllOrder;
+import art.sales.ArtsalesManagement.dao.request.FindAllOrderRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateOrder;
 import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
@@ -66,7 +66,7 @@ class OrderServiceImplTest {
 
     @Test
     void findAllOrders(){
-        FindAllOrder findAllOrder = FindAllOrder.builder()
+        FindAllOrderRequest findAllOrder = FindAllOrderRequest.builder()
                 .orderId(savedOrder.getId())
                 .numberOfPages(2)
                 .pages(2)
