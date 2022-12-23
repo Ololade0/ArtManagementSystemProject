@@ -3,10 +3,9 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.*;
 import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
-import art.sales.ArtsalesManagement.dto.model.Role;
+import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
     User registeredUser;
+    CreateOrderResponse savedOrder;
     @Autowired
     private  UserServices userServices;
 
@@ -37,6 +36,17 @@ class UserServiceImplTest {
                 .password("12345")
                .build();
         registeredUser =   userServices.registerUser(registerUserRequest);
+
+        CreateOrderRequest createOrderRequest = CreateOrderRequest.builder()
+                .id(registeredUser.getId())
+                .ordered_at(LocalDateTime.now())
+                .paymentTime(LocalDateTime.now())
+                .address("Nigeria")
+                .paymentDescription("Orders Description")
+                .paymentType(PaymentType.DEBIT_CARD)
+                .email("adesuyiololade@gmail.com")
+                .build();
+         savedOrder = userServices.createArtOrder(createOrderRequest);
     }
 
     @AfterEach
@@ -129,7 +139,20 @@ class UserServiceImplTest {
        CreateOrderResponse savedOrder = userServices.createArtOrder(createOrderRequest);
         assertEquals(1L, userServices.totalNoOfOrders());
         assertThat(savedOrder.getOrderId()).isNotNull();
-        System.out.println(savedOrder);
+    }
+    @Test
+    void findOrdersBYId(){
+        FindOrderByIdRequest findOrderByIdRequest = FindOrderByIdRequest.builder()
+                        .orderId(savedOrder.getOrderId())
+                                .userId(registeredUser.getId())
+                                        .build();
+      Order foundOrder =  userServices.findOrderById(findOrderByIdRequest);
+        assertThat(foundOrder.getId()).isNotNull();
+        assertThat(foundOrder.getId()).isEqualTo(savedOrder.getOrderId());
+    }
+    @Test
+    void findAllOrders(){
+        FindAllOrderRequest findAllOrderRequest = FindAllOrderRequest
     }
 
 }
