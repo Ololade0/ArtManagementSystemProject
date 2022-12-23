@@ -26,26 +26,26 @@ public class User {
     private String address;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Role>roleSet = new HashSet<>();
+    private Set<Role>roleHashSet = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Order> orders;
 
 
 
-//
-//    public User(String firstName, String lastName, String email, String phoneNo, String password, String address, RoleType roleType) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//        this.phoneNo = phoneNo;
-//        this.password = password;
-//        this.address = address;
-//        if (roles == null) {
-//            roles = new HashSet<>();
-//            roles.add(new Role(roleType));
-//
-//        }
-//    }
+
+    public User(String firstName, String lastName, String email, String phoneNo, String password, String address, RoleType roleType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.password = password;
+        this.address = address;
+        if (roleHashSet == null) {
+            roleHashSet = new HashSet<>();
+            roleHashSet.add(new Role(roleType));
+
+        }
+    }
 
 }
