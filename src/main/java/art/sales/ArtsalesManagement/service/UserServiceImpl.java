@@ -4,7 +4,9 @@ import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.Order;
+import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
+import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import art.sales.ArtsalesManagement.dto.repository.UserRepository;
 import art.sales.ArtsalesManagement.exception.UserCannotBeFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,21 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public User registerUser(User user) {
-        ModelMapper modelMapper = new ModelMapper();
-        User map = modelMapper.map(user, User.class);
-        System.out.println(userRepository.save(map));
-        System.out.println(map);
-        return userRepository.save(map);
+        User registered = User.builder()
+                .address("ikeja")
+                .email("adesuyiololade@gmail.com")
+                .firstName("Ololade")
+                .lastName("Demilade")
+                .phoneNo("08109093828")
+                .password("12345")
+                .build();
+        user.getRoles().add(new Role(RoleType.ROLE_USER));
+       return userRepository.save(registered);
+//        ModelMapper modelMapper = new ModelMapper();
+//        User map = modelMapper.map(user, User.class);
+//        System.out.println(userRepository.save(map));
+//        System.out.println(map);
+//        return userRepository.save(map);
     }
 
     @Override
@@ -96,8 +108,12 @@ public class UserServiceImpl implements UserServices {
             if(updateUserProfile.getPhoneNo()!= null){
                 foundUser.get().setPhoneNo(updateUserProfile.getPhoneNo());
             }
+            userRepository.save(foundUser.get());
 
         }
-        return null;
+        return UpdateUserResponse.builder()
+                .userId(foundUser.get().getId())
+                .email("User with " + foundUser.get().getEmail() + " successfully updated")
+               .build();
     }
 }

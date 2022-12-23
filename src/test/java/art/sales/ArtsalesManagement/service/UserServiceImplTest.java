@@ -2,6 +2,7 @@ package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
+import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +32,7 @@ class UserServiceImplTest {
                 .lastName("Demilade")
                 .phoneNo("08109093828")
                 .password("12345")
-                .roleType(RoleType.ROLE_USER)
-                .build();
+               .build();
         registeredUser =   userServices.registerUser(user);
     }
 
@@ -47,7 +49,6 @@ class UserServiceImplTest {
                 .lastName("Demilade")
                 .phoneNo("08109093828")
                 .password("12345")
-                .roleType(RoleType.ROLE_USER)
                 .build();
      User registeredUser =   userServices.registerUser(user);
         assertThat(registeredUser.getId()).isNotNull();
@@ -88,6 +89,7 @@ class UserServiceImplTest {
 @Test
     void userCanBeUpdated(){
         UpdateUserProfileRequest updateUserProfile = UpdateUserProfileRequest.builder()
+                .id(registeredUser.getId())
                 .address("Lekki")
                 .email("lolade@gmail.com")
                 .firstName("Tosin")
@@ -95,8 +97,9 @@ class UserServiceImplTest {
                 .phoneNo("09131807593")
                 .password("1234567")
                 .build();
-        userServices.updateUserProfile(updateUserProfile);
-
+    UpdateUserResponse foundUser =     userServices.updateUserProfile(updateUserProfile);
+    assertEquals("User with lolade@gmail.com successfully updated", foundUser.getEmail());
+    assertThat(foundUser.getUserId()).isNotNull();
     }
 
 }

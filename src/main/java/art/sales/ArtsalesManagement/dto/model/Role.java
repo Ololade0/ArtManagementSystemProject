@@ -6,15 +6,14 @@ import lombok.*;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
-@Entity(name ="Role")
+@Entity(name = "Roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Enumerated
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private RoleType roleType;
+
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
 }

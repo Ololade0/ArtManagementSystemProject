@@ -4,6 +4,9 @@ import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -21,6 +24,20 @@ public class User {
     private String phoneNo;
     private String password;
     private String address;
-    @Enumerated
-    private RoleType roleType;
+    private Set<Role> roles = new HashSet<>();
+
+    public User(String firstName, String lastName, String email, String phoneNo, String password, String address, RoleType roleType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.password = password;
+        this.address = address;
+        if (roles == null) {
+            roles = new HashSet<>();
+            roles.add(new Role(roleType));
+
+        }
+    }
+
 }
