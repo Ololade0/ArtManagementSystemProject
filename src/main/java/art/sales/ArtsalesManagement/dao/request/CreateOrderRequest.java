@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class CreateOrderRequest {
-
-        private Long id;
+               private Long id;
         private String email;
         private String address;
         private LocalDateTime ordered_at;

@@ -29,4 +29,8 @@ public interface  UserServices {
     CreateOrderResponse createArtOrder(CreateOrderRequest createOrderRequest);
 
     User findUserByEmail(String email);
+
+    long totalNoOfOrders();
+
+    void deleteAllOrders();
 }

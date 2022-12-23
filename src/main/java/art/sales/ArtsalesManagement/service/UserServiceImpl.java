@@ -7,6 +7,7 @@ import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.Art;
+import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
@@ -136,15 +137,31 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public CreateOrderResponse createArtOrder(CreateOrderRequest createOrderRequest) {
+    public long totalNoOfOrders() {
+        return orderService.size();
+    }
 
+    @Override
+    public void deleteAllOrders() {
+        orderService.deleteAllOrder();
+    }
+
+    @Override
+    public CreateOrderResponse createArtOrder(CreateOrderRequest createOrderRequest) {
+    Order savedOrder =    orderService.saveArtOrder(createOrderRequest);
      Optional<User> foundUser =   userRepository.findById(createOrderRequest.getId());
      if(foundUser.isPresent()){
-
+         foundUser.get().getOrders().add(savedOrder);
+         userRepository.save(foundUser.get());
+         System.out.println(foundUser);
      }
-
-
-        return null;
+     else {
+         throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(createOrderRequest.getId()));
+     }
+        return CreateOrderResponse.builder()
+                .message("")
+                .orderId(savedOrder.getId())
+                .build();
     }
 
 }

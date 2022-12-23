@@ -1,6 +1,7 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.*;
+import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
@@ -41,6 +42,7 @@ class UserServiceImplTest {
     @AfterEach
     void tearDown() {
         userServices.deleteAllUser();
+        userServices.deleteAllOrders();
     }
     @Test
     void userCanBeRegister(){
@@ -116,6 +118,7 @@ class UserServiceImplTest {
     @Test
     void userCanOrderArt(){
         CreateOrderRequest createOrderRequest = CreateOrderRequest.builder()
+                .id(registeredUser.getId())
                 .ordered_at(LocalDateTime.now())
                 .paymentTime(LocalDateTime.now())
                 .address("Nigeria")
@@ -123,8 +126,10 @@ class UserServiceImplTest {
                 .paymentType(PaymentType.DEBIT_CARD)
                 .email("adesuyiololade@gmail.com")
                 .build();
-        userServices.createArtOrder(createOrderRequest);
-
+       CreateOrderResponse savedOrder = userServices.createArtOrder(createOrderRequest);
+        assertEquals(1L, userServices.totalNoOfOrders());
+        assertThat(savedOrder.getOrderId()).isNotNull();
+        System.out.println(savedOrder);
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+//@ToString
 @Entity(name = "User")
 public class User {
     @Id
@@ -28,7 +28,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Role>roleHashSet = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Order> orders;
 
 
