@@ -190,5 +190,17 @@ public class UserServiceImpl implements UserServices {
 
     }
 
+    @Override
+    public String deleteOrderById(DeleteOrderRequest deleteOrderRequest) {
+     Optional<User> foundUser =   userRepository.findById(deleteOrderRequest.getOrderId());
+     if(foundUser.isPresent()){
+         orderService.deleteOrderById(deleteOrderRequest.getOrderId());
+         return "Order with " + deleteOrderRequest.getOrderId() + "successfully deleted";
+     }
+     else {
+         throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(deleteOrderRequest.getUserId()));
+     }
+    }
+
 
 }

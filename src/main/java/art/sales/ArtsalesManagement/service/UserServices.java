@@ -36,4 +36,6 @@ public interface  UserServices {
     Order findOrderById(FindOrderByIdRequest findOrderByIdRequest);
 
     Page<Order> findAllOrder(FindAllOrderRequest findAllOrderRequest);
+
+    String deleteOrderById(DeleteOrderRequest deleteOrderRequest);
 }

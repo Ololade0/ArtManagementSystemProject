@@ -164,4 +164,22 @@ class UserServiceImplTest {
         assertThat(foundOrder.getTotalElements()).isNotNull();
     }
 
+    @Test
+    void deleteOrderById(){
+        DeleteOrderRequest deleteOrderRequest = DeleteOrderRequest
+                .builder()
+                .orderId(savedOrder.getOrderId())
+                .userId(registeredUser.getId())
+                .build();
+      String deletedOrder =  userServices.deleteOrderById(deleteOrderRequest);
+        System.out.println(deletedOrder);
+//        assertEquals(1L, userServices.totalNoOfOrders());
+    }
+    @Test
+    void deleteAllOrder(){
+        userServices.deleteAllOrders();
+        assertEquals(1L, userServices.totalNoOfOrders());
+
+    }
+
 }
