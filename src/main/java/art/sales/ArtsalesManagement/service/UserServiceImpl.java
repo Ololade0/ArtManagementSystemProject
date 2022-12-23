@@ -3,6 +3,7 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dto.model.Art;
 import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
@@ -13,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,18 +23,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserServices {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User registerUser(User user) {
-        User registered = User.builder()
-                .address("ikeja")
-                .email("adesuyiololade@gmail.com")
-                .firstName("Ololade")
-                .lastName("Demilade")
-                .phoneNo("08109093828")
-                .password("12345")
-                .build();
-        user.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
+        ModelMapper modelMapper = new ModelMapper();
+        User  savedUser =   modelMapper.map(user, User.class);
+        String encodedPassword = passwordEncoder.encode(savedUser.getPassword());
+        savedUser.setPassword(encodedPassword);
+        return userRepository.save(savedUser);
+
+//        User registered = User.builder()
+//                .address()
+//                .email("adesuyiololade@gmail.com")
+//                .firstName("Ololade")
+//                .lastName("Demilade")
+//                .phoneNo("08109093828")
+//                .password()
+//                .build();
+//        user.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
        return userRepository.save(registered);
     }
 
@@ -110,4 +119,5 @@ public class UserServiceImpl implements UserServices {
                 .email("User with " + foundUser.get().getEmail() + " successfully updated")
                .build();
     }
+
 }

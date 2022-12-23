@@ -11,14 +11,15 @@ import lombok.*;
 @Entity
 
 public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated
+    private RoleType roleType;
 
        public Role(RoleType roleType) {
             this.roleType = roleType;
         }
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        @Enumerated
-        private RoleType roleType;
+
 }
