@@ -1,6 +1,7 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
+import art.sales.ArtsalesManagement.dao.request.RegisterUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.User;
@@ -25,15 +26,15 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        User user = User.builder()
-                .address("ikeja")
+        RegisterUserRequest registerUserRequest = RegisterUserRequest.builder()
+                      .address("ikeja")
                 .email("adesuyiololade@gmail.com")
                 .firstName("Ololade")
                 .lastName("Demilade")
                 .phoneNo("08109093828")
                 .password("12345")
                .build();
-        registeredUser =   userServices.registerUser(user);
+        registeredUser =   userServices.registerUser(registerUserRequest);
     }
 
     @AfterEach
@@ -42,7 +43,7 @@ class UserServiceImplTest {
     }
     @Test
     void userCanBeRegister(){
-        User user = User.builder()
+        RegisterUserRequest registerUserRequest = RegisterUserRequest.builder()
                 .address("ikeja")
                 .email("adesuyiololade@gmail.com")
                 .firstName("Ololade")
@@ -50,7 +51,8 @@ class UserServiceImplTest {
                 .phoneNo("08109093828")
                 .password("12345")
                 .build();
-     User registeredUser =   userServices.registerUser(user);
+        registeredUser =   userServices.registerUser(registerUserRequest);
+
         assertThat(registeredUser.getId()).isNotNull();
         assertEquals(2, userServices.size());
 

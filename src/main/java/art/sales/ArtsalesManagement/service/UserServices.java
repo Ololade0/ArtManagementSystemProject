@@ -1,13 +1,14 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
+import art.sales.ArtsalesManagement.dao.request.RegisterUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.User;
 import org.springframework.data.domain.Page;
 
 public interface  UserServices {
-    User registerUser(User user);
+    User registerUser(RegisterUserRequest registerUserRequest);
 
     long size();
 
