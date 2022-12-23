@@ -98,7 +98,15 @@ class OrderServiceImplTest {
                 .email("ololade@gmail.com")
                 .updatedAt(LocalDateTime.now())
                 .build();
-        orderService.updateOrder(updateOrder);
+      Order updatedOrder =  orderService.updateOrder(updateOrder);
+      assertEquals("Ghana", updatedOrder.getAddress());
+        assertEquals("Art Description", updatedOrder.getPaymentDescription());
+        assertEquals("ololade@gmail.com", updatedOrder.getEmail());
+        assertEquals(PaymentType.MOBILE_PAYMENT, updatedOrder.getPaymentType());
+        System.out.println("updated order is" + updatedOrder);
+
+
+
     }
 
 

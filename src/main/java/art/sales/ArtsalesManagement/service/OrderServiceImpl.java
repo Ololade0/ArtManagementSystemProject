@@ -22,19 +22,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+
     @Override
     public Order saveArtOrder(CreateOrderRequest createOrderRequest) {
-//        Order order = Order.builder()
-//                .email(createOrderRequest.getEmail())
-//                .ordered_at(LocalDateTime.now())
-//                .address(createOrderRequest.getAddress())
-//                .paymentDescription(createOrderRequest.getPaymentDescription())
-//                .paymentTime(LocalDateTime.now())
-//                .paymentType(PaymentType.DEBIT_CARD)
-//                .build();
-//        return orderRepository.save(order);
         ModelMapper modelMapper = new ModelMapper();
-        Order map =   modelMapper.map(createOrderRequest, Order.class);
+        Order map = modelMapper.map(createOrderRequest, Order.class);
         return orderRepository.save(map);
 
 
@@ -47,30 +39,30 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String deleteAllOrder() {
-        orderRepository.deleteAll();;
+        orderRepository.deleteAll();
+        ;
         return "All orders successfully deleted";
     }
 
     @Override
     public Order findById(Long id) {
-      Optional<Order> foundOrder = orderRepository.findById(id);
+        Optional<Order> foundOrder = orderRepository.findById(id);
         return foundOrder.orElse(null);
     }
 
     @Override
     public Page<Order> findAllOrders(FindAllOrder findAllOrder) {
-        Pageable pageable = PageRequest.of(findAllOrder.getPages()-1, findAllOrder.getNumberOfPages());
+        Pageable pageable = PageRequest.of(findAllOrder.getPages() - 1, findAllOrder.getNumberOfPages());
         return orderRepository.findAll(pageable);
     }
 
     @Override
     public String deleteOrderById(Long id) {
         Optional<Order> foundOrder = orderRepository.findById(id);
-        if(foundOrder.isPresent()){
+        if (foundOrder.isPresent()) {
             orderRepository.deleteById(id);
             return "Order successfully deleted";
-        }
-        else{
+        } else {
             throw new OrderCannotBeFoundException(OrderCannotBeFoundException.OrderCannotBeFoundException(id));
         }
 
@@ -78,7 +70,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateOrder(UpdateOrder updateOrder) {
-
-        return null;
+        Optional<Order> foundOrder = orderRepository.findById(updateOrder.getId());
+        if (foundOrder.isPresent()) {
+            if (updateOrder.getAddress() != null) {
+                foundOrder.get().setAddress(updateOrder.getAddress());
+            }
+            if (updateOrder.getEmail() != null) {
+                foundOrder.get().setEmail(updateOrder.getEmail());
+            }
+            if (updateOrder.getPaymentDescription() != null) {
+                foundOrder.get().setPaymentDescription(updateOrder.getPaymentDescription());
+            }
+            if (updateOrder.getPaymentType() != null) {
+                foundOrder.get().setPaymentType(updateOrder.getPaymentType());
+            }
+            return orderRepository.save(foundOrder.get());
+        } else {
+            throw new OrderCannotBeFoundException(OrderCannotBeFoundException.OrderCannotBeFoundException(updateOrder.getId()));
+        }
     }
+
 }
