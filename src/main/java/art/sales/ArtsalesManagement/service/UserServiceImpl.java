@@ -3,8 +3,6 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
 import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
-import art.sales.ArtsalesManagement.dto.model.Order;
-import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import art.sales.ArtsalesManagement.dto.repository.UserRepository;
@@ -33,13 +31,8 @@ public class UserServiceImpl implements UserServices {
                 .phoneNo("08109093828")
                 .password("12345")
                 .build();
-        user.getRoles().add(new Role(RoleType.ROLE_USER));
+//        user.getRoles().add(new Role(RoleType.ROLE_USER));
        return userRepository.save(registered);
-//        ModelMapper modelMapper = new ModelMapper();
-//        User map = modelMapper.map(user, User.class);
-//        System.out.println(userRepository.save(map));
-//        System.out.println(map);
-//        return userRepository.save(map);
     }
 
     @Override

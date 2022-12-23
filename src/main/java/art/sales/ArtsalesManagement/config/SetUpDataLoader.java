@@ -8,7 +8,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class SetUpDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+public class SetUpDataLoader{
+//        implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private UserRepository userRepository;
 
@@ -17,11 +18,11 @@ public class SetUpDataLoader implements ApplicationListener<ContextRefreshedEven
 
 
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (userRepository.findUserByEmail("adesuyi@gmail.com").isEmpty()){
-            User user = new User("Ololade", "Ola","ololade@gmail.com", passwordEncoder.encode("12345"), "12345", "Sabo", RoleType.ROLE_USER);
-            userRepository.save(user);
-        }
-    }
+//    @Override
+//    public void onApplicationEvent(ContextRefreshedEvent event) {
+//        if (userRepository.findUserByEmail("adesuyi@gmail.com").isEmpty()){
+//            User user = new User("Ololade", "Ola","ololade@gmail.com", passwordEncoder.encode("12345"), "12345", "Sabo", RoleType.ROLE_USER);
+//            userRepository.save(user);
+//        }
+//    }
 }

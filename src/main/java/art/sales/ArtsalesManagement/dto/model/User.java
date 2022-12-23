@@ -24,20 +24,28 @@ public class User {
     private String phoneNo;
     private String password;
     private String address;
-    private Set<Role> roles = new HashSet<>();
 
-    public User(String firstName, String lastName, String email, String phoneNo, String password, String address, RoleType roleType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.password = password;
-        this.address = address;
-        if (roles == null) {
-            roles = new HashSet<>();
-            roles.add(new Role(roleType));
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Role>roleSet = new HashSet<>();
 
-        }
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
+
+
+//
+//    public User(String firstName, String lastName, String email, String phoneNo, String password, String address, RoleType roleType) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.phoneNo = phoneNo;
+//        this.password = password;
+//        this.address = address;
+//        if (roles == null) {
+//            roles = new HashSet<>();
+//            roles.add(new Role(roleType));
+//
+//        }
+//    }
 
 }

@@ -4,16 +4,21 @@ import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Roles")
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private RoleType roleType;
+@Entity
 
-    public Role(RoleType roleType) {
-        this.roleType = roleType;
-    }
+public class Role {
+
+       public Role(RoleType roleType) {
+            this.roleType = roleType;
+        }
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        @Enumerated
+        private RoleType roleType;
 }
