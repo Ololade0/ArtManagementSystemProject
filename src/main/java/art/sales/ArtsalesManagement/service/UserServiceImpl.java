@@ -1,6 +1,8 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.request.FindAllUserRequest;
+import art.sales.ArtsalesManagement.dao.request.UpdateUserProfileRequest;
+import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.repository.UserRepository;
@@ -67,5 +69,25 @@ public class UserServiceImpl implements UserServices {
         else {
             throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(id));
         }
+    }
+
+    @Override
+    public UpdateUserResponse updateUserProfile(UpdateUserProfileRequest updateUserProfile) {
+        Optional<User> foundUser = userRepository.findById(updateUserProfile.getId());
+        if(foundUser.isEmpty()){
+            throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(updateUserProfile.getId()));
+        }
+        else {
+            if(updateUserProfile.getAddress()!= null){
+                foundUser.get().setAddress(updateUserProfile.getAddress());
+            }
+            if(updateUserProfile.getEmail()!= null){
+                foundUser.get().setEmail(updateUserProfile.getEmail());
+            }
+            if(updateUserProfile.getFirstName()!= null){
+                foundUser.get().setFirstName(updateUserProfile.getFirstName());
+            }
+        }
+        return null;
     }
 }

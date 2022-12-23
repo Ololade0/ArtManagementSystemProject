@@ -8,4 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UpdateUserResponse {
+    private Long userId;
+    private String message;
+    private String email;
 }
