@@ -17,7 +17,7 @@ public interface OrderService {
 
   Page<Order> findAllOrders(FindAllOrderRequest findAllOrder);
 
-    String deleteOrderById(Long id);
+//    String deleteOrderById(Long id);
 
     Order updateOrder(UpdateOrder updateOrder);
 }

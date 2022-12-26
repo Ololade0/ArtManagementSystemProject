@@ -3,6 +3,7 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.*;
 import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
 import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
@@ -65,7 +66,7 @@ class UserServiceImplTest {
                 .password("12345")
                 .build();
 //        registeredUser.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
-        registeredUser =   userServices.registerUser(registerUserRequest);
+//        registeredUser =   userServices.registerUser(registerUserRequest);
 //        registeredUserR.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
 
         assertThat(registeredUser.getId()).isNotNull();
@@ -125,6 +126,17 @@ class UserServiceImplTest {
     assertEquals("User with lolade@gmail.com successfully updated", foundUser.getEmail());
     assertThat(foundUser.getUserId()).isNotNull();
     }
+
+    @Test
+    public void UserCanLogin() {
+        UserLoginRequestModel userLoginRequestModel = new UserLoginRequestModel();
+        userLoginRequestModel.setEmail(registeredUser.getEmail());
+        userLoginRequestModel.setPassword(registeredUser.getPassword());
+      UserLoginResponse user =  userServices.login(userLoginRequestModel);
+      assertEquals("Login successful", user.getMessage());
+        assertEquals(200, user.getCode());
+
+    }
     @Test
     void userCanOrderArt(){
         CreateOrderRequest createOrderRequest = CreateOrderRequest.builder()
@@ -137,7 +149,7 @@ class UserServiceImplTest {
                 .email("adesuyiololade@gmail.com")
                 .build();
        CreateOrderResponse savedOrder = userServices.createArtOrder(createOrderRequest);
-        assertEquals(1L, userServices.totalNoOfOrders());
+        assertEquals(2L, userServices.totalNoOfOrders());
         assertThat(savedOrder.getOrderId()).isNotNull();
     }
     @Test
@@ -163,5 +175,7 @@ class UserServiceImplTest {
         assertEquals(1L, foundOrder.getTotalElements());
         assertThat(foundOrder.getTotalElements()).isNotNull();
     }
+
+
 
 }

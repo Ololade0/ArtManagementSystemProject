@@ -3,6 +3,7 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.*;
 import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
 import art.sales.ArtsalesManagement.dto.model.Art;
 import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.Role;
@@ -15,15 +16,23 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserServices {
+public class UserServiceImpl implements UserServices, UserDetailsService {
     private final UserRepository userRepository;
     private final OrderService orderService;
 
@@ -141,7 +150,7 @@ public class UserServiceImpl implements UserServices {
      if(foundUser.isPresent()){
          foundUser.get().getOrders().add(savedOrder);
          userRepository.save(foundUser.get());
-         System.out.println(foundUser);
+
      }
      else {
          throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(createOrderRequest.getId()));
@@ -191,16 +200,45 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public String deleteOrderById(DeleteOrderRequest deleteOrderRequest) {
-     Optional<User> foundUser =   userRepository.findById(deleteOrderRequest.getOrderId());
-     if(foundUser.isPresent()){
-         orderService.deleteOrderById(deleteOrderRequest.getOrderId());
-         return "Order with " + deleteOrderRequest.getOrderId() + "successfully deleted";
-     }
-     else {
-         throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(deleteOrderRequest.getUserId()));
-     }
+    public UserLoginResponse login(UserLoginRequestModel userLoginRequestModel) {
+        var user = userRepository.findUserByEmail(userLoginRequestModel.getEmail());
+        if(user.isPresent() && user.get().getPassword().equals(userLoginRequestModel.getPassword()));
+        return   buildSuccessfulLoginResponse(user.get());
+
     }
+    private UserLoginResponse buildSuccessfulLoginResponse(User user) {
+        return UserLoginResponse.builder()
+                .code(200)
+                .message("Login successful")
+                .build();
+
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(username).orElse(null);
+        if(user!= null){
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user.getRoleHashSet()));
+        }
+        return null;
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> roleHashSet) {
+        return roleHashSet.stream().map(role -> new SimpleGrantedAuthority(role.getRoleType().name())).collect(Collectors.toSet());
+    }
+
+//    @Override
+//    public String deleteOrderById(DeleteOrderRequest deleteOrderRequest) {
+//     Optional<User> foundUser =   userRepository.findById(deleteOrderRequest.getOrderId());
+//     if(foundUser.isPresent()){
+//         orderService.deleteOrderById(deleteOrderRequest.getOrderId());
+//         return "Order with " + deleteOrderRequest.getOrderId() + "successfully deleted";
+//     }
+//     else {
+//         throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(deleteOrderRequest.getUserId()));
+//     }
+//    }
 
 
 }

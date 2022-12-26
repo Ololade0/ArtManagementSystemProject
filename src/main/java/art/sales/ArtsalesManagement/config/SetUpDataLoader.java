@@ -20,7 +20,7 @@ public class SetUpDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private UserRepository userRepository;
 
-    @Bean
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }

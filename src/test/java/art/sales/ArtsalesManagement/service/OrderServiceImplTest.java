@@ -82,11 +82,11 @@ class OrderServiceImplTest {
         assertEquals(0, orderService.size());
     }
 
-    @Test
-    void deleteOrderById(){
-        orderService.deleteOrderById(savedOrder.getId());
-        assertEquals(0, orderService.size());
-    }
+//    @Test
+//    void deleteOrderById(){
+//        orderService.deleteOrderById(savedOrder.getId());
+//        assertEquals(0, orderService.size());
+//    }
 
     @Test
     void OrderCanBeUpdated(){

@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String deleteAllOrder() {
         orderRepository.deleteAll();
-        ;
         return "All orders successfully deleted";
     }
 
@@ -53,17 +52,17 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll(pageable);
     }
 
-    @Override
-    public String deleteOrderById(Long id) {
-        Optional<Order> foundOrder = orderRepository.findById(id);
-        if (foundOrder.isPresent()) {
-            orderRepository.deleteById(id);
-            return "Order successfully deleted";
-        } else {
-            throw new OrderCannotBeFoundException(OrderCannotBeFoundException.OrderCannotBeFoundException(id));
-        }
-
-    }
+//    @Override
+//    public String deleteOrderById(Long id) {
+//        Optional<Order> foundOrder = orderRepository.findById(id);
+//        if (foundOrder.isPresent()) {
+//            orderRepository.deleteById(id);
+//            return "Order successfully deleted";
+//        } else {
+//            throw new OrderCannotBeFoundException(OrderCannotBeFoundException.OrderCannotBeFoundException(id));
+//        }
+//
+//    }
 
     @Override
     public Order updateOrder(UpdateOrder updateOrder) {

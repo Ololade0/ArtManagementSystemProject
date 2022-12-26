@@ -3,6 +3,7 @@ package art.sales.ArtsalesManagement.service;
 import art.sales.ArtsalesManagement.dao.request.*;
 import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
 import art.sales.ArtsalesManagement.dto.model.Order;
 import art.sales.ArtsalesManagement.dto.model.User;
 import org.springframework.data.domain.Page;
@@ -37,5 +38,7 @@ public interface  UserServices {
 
     Page<Order> findAllOrder(FindAllOrderRequest findAllOrderRequest);
 
-    String deleteOrderById(DeleteOrderRequest deleteOrderRequest);
+    UserLoginResponse login(UserLoginRequestModel userLoginRequestModel);
+
+//    String deleteOrderById(DeleteOrderRequest deleteOrderRequest);
 }

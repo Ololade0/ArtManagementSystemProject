@@ -24,7 +24,6 @@ public class User {
     private String phoneNo;
     private String password;
     private String address;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Role>roleHashSet = new HashSet<>();
 
