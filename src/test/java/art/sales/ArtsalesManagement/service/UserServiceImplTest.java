@@ -5,8 +5,10 @@ import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
 import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
 import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
 import art.sales.ArtsalesManagement.dto.model.Order;
+import art.sales.ArtsalesManagement.dto.model.Role;
 import art.sales.ArtsalesManagement.dto.model.User;
 import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
+import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,10 +67,7 @@ class UserServiceImplTest {
                 .phoneNo("08109093828")
                 .password("12345")
                 .build();
-//        registeredUser.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
-//        registeredUser =   userServices.registerUser(registerUserRequest);
-//        registeredUserR.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
-
+        registeredUser =   userServices.registerUser(registerUserRequest);
         assertThat(registeredUser.getId()).isNotNull();
         assertEquals(2, userServices.size());
 
