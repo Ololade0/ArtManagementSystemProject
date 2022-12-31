@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +32,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        Set<Role> roles = new HashSet<>();
         RegisterUserRequest registerUserRequest = RegisterUserRequest.builder()
                       .address("ikeja")
                 .email("adesuyiololade@gmail.com")
@@ -39,6 +42,7 @@ class UserServiceImplTest {
                 .password("12345")
                .build();
         registeredUser =   userServices.registerUser(registerUserRequest);
+        registeredUser.setRoleHashSet(roles);
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.builder()
                 .id(registeredUser.getId())

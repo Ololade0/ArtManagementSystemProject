@@ -15,13 +15,13 @@ public interface  UserServices {
 
     long size();
 
-    void deleteAllUser();
+    String deleteAllUser();
 
     User findById(Long id);
 
     Page<User> findAllUser(FindAllUserRequest findAllUser);
 
-    void deleteUserById(Long id);
+    String deleteUserById(Long id);
 
     UpdateUserResponse updateUserProfile(UpdateUserProfileRequest updateUserProfile);
 

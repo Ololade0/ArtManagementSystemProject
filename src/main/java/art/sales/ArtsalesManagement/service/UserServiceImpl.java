@@ -26,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,8 +52,9 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
                     .lastName(registerUserRequest.getLastName())
                     .phoneNo(registerUserRequest.getPhoneNo())
                     .password(bCryptPasswordEncoder.encode(registerUserRequest.getPassword()))
+                    .roleHashSet(new HashSet<>())
                     .build();
-//        registered.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
+            registered.getRoleHashSet().add(new Role(RoleType.ROLE_USER));
             return userRepository.save(registered);
         }
 
@@ -64,8 +66,9 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
     }
 
     @Override
-    public void deleteAllUser() {
+    public String deleteAllUser() {
         userRepository.deleteAll();
+        return "User successfully deleted";
 
     }
 
@@ -89,10 +92,11 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public String deleteUserById(Long id) {
         Optional<User> foundUser = userRepository.findById(id);
         if(foundUser.isPresent()){
             userRepository.deleteById(id);
+            return "User successfully deleted";
         }
         else {
             throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(id));
