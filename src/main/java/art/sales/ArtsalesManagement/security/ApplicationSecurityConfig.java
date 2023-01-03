@@ -1,5 +1,4 @@
 package art.sales.ArtsalesManagement.security;
-
 import art.sales.ArtsalesManagement.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
