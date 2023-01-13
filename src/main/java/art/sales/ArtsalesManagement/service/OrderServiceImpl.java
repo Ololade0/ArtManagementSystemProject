@@ -1,6 +1,7 @@
 package art.sales.ArtsalesManagement.service;
 
 import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dao.model.enumPackage.PaymentType;
 import art.sales.ArtsalesManagement.dao.repository.OrderRepository;
 import art.sales.ArtsalesManagement.dto.request.CreateOrderRequest;
 import art.sales.ArtsalesManagement.dto.request.FindAllOrderRequest;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -22,11 +24,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order saveArtOrder(CreateOrderRequest createOrderRequest) {
-        ModelMapper modelMapper = new ModelMapper();
-        Order map = modelMapper.map(createOrderRequest, Order.class);
-        return orderRepository.save(map);
-
-
+        Order order = Order.builder()
+                .ordered_at(LocalDateTime.now())
+                .address(createOrderRequest.getAddress())
+                .paymentDescription(createOrderRequest.getPaymentDescription())
+                .paymentType(createOrderRequest.getPaymentType())
+                .paymentTime(LocalDateTime.now())
+                .build();
+             return orderRepository.save(order);
     }
 
     @Override
@@ -71,9 +76,7 @@ public class OrderServiceImpl implements OrderService {
             if (updateOrder.getAddress() != null) {
                 foundOrder.get().setAddress(updateOrder.getAddress());
             }
-            if (updateOrder.getEmail() != null) {
-                foundOrder.get().setEmail(updateOrder.getEmail());
-            }
+
             if (updateOrder.getPaymentDescription() != null) {
                 foundOrder.get().setPaymentDescription(updateOrder.getPaymentDescription());
             }

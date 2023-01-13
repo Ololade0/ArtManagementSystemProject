@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -152,6 +153,7 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
 
     @Override
     public CreateOrderResponse createArtOrder(CreateOrderRequest createOrderRequest) {
+
     Order savedOrder =    orderService.saveArtOrder(createOrderRequest);
      Optional<User> foundUser =   userRepository.findById(createOrderRequest.getId());
      if(foundUser.isPresent()){
@@ -163,7 +165,7 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
          throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(createOrderRequest.getId()));
      }
         return CreateOrderResponse.builder()
-                .message("")
+                .message("Order successfully placed")
                 .orderId(savedOrder.getId())
                 .build();
     }

@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<?> findAll(FindAllUserRequest findAllUserRequest) {
+    public ResponseEntity<?> findAll(@RequestBody FindAllUserRequest findAllUserRequest) {
         Page<User> user = userService.findAllUser(findAllUserRequest);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -70,14 +70,14 @@ public class UserController {
     return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> deleteAllUsers(@PathVariable Long id){
-        return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.CREATED);
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteAllUsers(){
+        return new ResponseEntity<>(userService.deleteAllUser(), HttpStatus.CREATED);
     }
 
 
     @PutMapping("/updateuser")
-    public ResponseEntity<?> updateUsers(UpdateUserProfileRequest updateUserProfile){
+    public ResponseEntity<?> updateUsers(@RequestBody UpdateUserProfileRequest updateUserProfile){
       UpdateUserResponse updatedUser = userService.updateUserProfile(updateUserProfile);
         return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
@@ -95,7 +95,7 @@ public class UserController {
     }
 
     @GetMapping("/findorders")
-    public ResponseEntity<?> findAllOrder(FindAllOrderRequest findAllOrderRequest){
+    public ResponseEntity<?> findAllOrder(@RequestBody FindAllOrderRequest findAllOrderRequest){
         Page<Order> foundOrder = userService.findAllOrder(findAllOrderRequest);
         return new ResponseEntity<>(foundOrder, HttpStatus.CREATED);
     }

@@ -16,17 +16,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
     private String address;
     private LocalDateTime ordered_at;
     private LocalDateTime paymentTime;
     private String paymentDescription;
-
-////    @ManyToOne
-////    @JoinColumn(name = "user_id")
-//    private User user;
-
-    @Enumerated
-    private PaymentType paymentType;
+   private PaymentType paymentType;
 
 }

@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class CreateOrderRequest {
-               private Long id;
-        private String email;
+        private Long id;
         private String address;
+        private PaymentType paymentType;
         private LocalDateTime ordered_at;
         private LocalDateTime paymentTime;
         private String paymentDescription;
-        private PaymentType paymentType;
+
 }
