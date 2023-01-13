@@ -1,18 +1,16 @@
 package art.sales.ArtsalesManagement.service;
 
-import art.sales.ArtsalesManagement.dao.request.*;
-import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
-import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
-import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
-import art.sales.ArtsalesManagement.dto.model.Art;
-import art.sales.ArtsalesManagement.dto.model.Order;
-import art.sales.ArtsalesManagement.dto.model.Role;
-import art.sales.ArtsalesManagement.dto.model.User;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
-import art.sales.ArtsalesManagement.dto.repository.UserRepository;
+import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dao.model.Role;
+import art.sales.ArtsalesManagement.dao.model.User;
+import art.sales.ArtsalesManagement.dao.model.enumPackage.RoleType;
+import art.sales.ArtsalesManagement.dao.repository.UserRepository;
+import art.sales.ArtsalesManagement.dto.request.*;
+import art.sales.ArtsalesManagement.dto.response.CreateOrderResponse;
+import art.sales.ArtsalesManagement.dto.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dto.response.UserLoginResponse;
 import art.sales.ArtsalesManagement.exception.UserCannotBeFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -51,6 +48,7 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
                     .firstName(registerUserRequest.getFirstName())
                     .lastName(registerUserRequest.getLastName())
                     .phoneNo(registerUserRequest.getPhoneNo())
+                    .roleHashSet(new HashSet<>())
                     .password(bCryptPasswordEncoder.encode(registerUserRequest.getPassword()))
                     .roleHashSet(new HashSet<>())
                     .build();
@@ -96,7 +94,11 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
         Optional<User> foundUser = userRepository.findById(id);
         if(foundUser.isPresent()){
             userRepository.deleteById(id);
-            return "User successfully deleted";
+
+            return "User deleted Successfully";
+
+
+
         }
         else {
             throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(id));
@@ -105,6 +107,7 @@ public class UserServiceImpl implements UserServices, UserDetailsService {
 
     @Override
     public UpdateUserResponse updateUserProfile(UpdateUserProfileRequest updateUserProfile) {
+
         Optional<User> foundUser = userRepository.findById(updateUserProfile.getId());
         if (foundUser.isEmpty()) {
             throw new UserCannotBeFoundException(UserCannotBeFoundException.UserCannotBeFoundException(updateUserProfile.getId()));

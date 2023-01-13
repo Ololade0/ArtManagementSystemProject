@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class TokenProviderImpl implements TokenProvider {
+class TokenProviderImpl implements TokenProvider {
 
     private final static Long TOKEN_VALIDITY_PERIOD = (long) (24 * 10 * 3600);
 
@@ -29,6 +29,7 @@ public class TokenProviderImpl implements TokenProvider {
 
     @Override
     public String getUsernameFromJWTToken(String token) {
+
         return getClaimFromJWTToken(token, Claims::getSubject);
     }
 
@@ -67,8 +68,10 @@ public class TokenProviderImpl implements TokenProvider {
 
     @Override
     public String generateJWTToken(Authentication authentication) {
-        log.info("Authentication in generate token --> {}", authentication);
-        String authorities = authentication.getAuthorities().stream()
+        log.info("Authentication in generate token --> {}",
+                authentication);
+        String authorities = authentication.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         log.info("Authorities --> {}", authorities);
@@ -76,7 +79,8 @@ public class TokenProviderImpl implements TokenProvider {
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_PERIOD))
+                .setExpiration(new Date(System.currentTimeMillis()
+                        + TOKEN_VALIDITY_PERIOD))
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
                 .compact();
         log.info("Jwts -->{}", jwts);
@@ -106,7 +110,8 @@ public class TokenProviderImpl implements TokenProvider {
         final Claims claims = claimsJws.getBody();
 
         final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream(claims.get(AUTHORITIES_KEY)
+                                .toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toSet());
         log.info("Authorities here --> {}", authorities);

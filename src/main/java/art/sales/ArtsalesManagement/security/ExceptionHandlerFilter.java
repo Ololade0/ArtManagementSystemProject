@@ -1,5 +1,4 @@
 package art.sales.ArtsalesManagement.security;
-import art.sales.ArtsalesManagement.controller.ApiError;
 import art.sales.ArtsalesManagement.exception.APIError;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -11,6 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -18,9 +18,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         try {
             chain.doFilter(request, response);
-        } catch (JwtException jwtException){
-            jwtException.printStackTrace();
-            setErrorResponse(HttpStatus.BAD_REQUEST, response, jwtException);
+        } catch (JwtException exception) {
+            exception.printStackTrace();
+            setErrorResponse(HttpStatus.BAD_REQUEST, response, exception);
         } catch (RuntimeException exception) {
             exception.printStackTrace();
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, response, exception);
@@ -32,7 +32,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json");
         APIError apiError = new APIError(status, exception);
-
         try {
             String JsonOutput = apiError.convertToJson();
             response.getWriter().write(JsonOutput);

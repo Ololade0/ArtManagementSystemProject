@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,9 @@ public class RestResponseStatusExceptionResolver extends AbstractHandlerExceptio
         return modelAndView;
     }
 
-    /** Prepares error object based on the provided accept type.
+    /**
+     * Prepares error object based on the provided accept type.
+     *
      * @param accept The Accept header present in the request.
      * @return The response to return
      * @throws JsonProcessingException
@@ -56,7 +59,7 @@ public class RestResponseStatusExceptionResolver extends AbstractHandlerExceptio
         error.put("Error", "Application specific error message");
 
         final String response;
-        if(MediaType.APPLICATION_JSON_VALUE.equals(accept)) {
+        if (MediaType.APPLICATION_JSON_VALUE.equals(accept)) {
             response = new ObjectMapper().writeValueAsString(error);
         } else {
             response = new XmlMapper().writeValueAsString(error);
@@ -64,4 +67,5 @@ public class RestResponseStatusExceptionResolver extends AbstractHandlerExceptio
 
         return response;
     }
+
 }

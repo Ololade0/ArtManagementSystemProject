@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(
         prePostEnabled = true
 )
-public class ApplicationSecurityConfig  {
+public class ApplicationSecurityConfig{
     private final UnAuthorizedEntryPoint  unAuthorizedEntryPoint;
 
     public ApplicationSecurityConfig(UnAuthorizedEntryPoint unAuthorizedEntryPoint) {
@@ -43,6 +43,8 @@ public class ApplicationSecurityConfig  {
                         throw new RuntimeException(e);
                     }
                 });
+
+
         http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(exceptionHandlerFilterBean(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -73,3 +75,4 @@ public class ApplicationSecurityConfig  {
         return new BCryptPasswordEncoder();
     }
 }
+

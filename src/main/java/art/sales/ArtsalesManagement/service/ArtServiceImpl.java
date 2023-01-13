@@ -1,11 +1,10 @@
 package art.sales.ArtsalesManagement.service;
-import art.sales.ArtsalesManagement.dao.request.CreateArtsRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllArtRequest;
-import art.sales.ArtsalesManagement.dao.request.UpdateArtRequest;
 
-import art.sales.ArtsalesManagement.dto.model.Art;
-
-import art.sales.ArtsalesManagement.dto.repository.ArtRepository;
+import art.sales.ArtsalesManagement.dao.model.Art;
+import art.sales.ArtsalesManagement.dao.repository.ArtRepository;
+import art.sales.ArtsalesManagement.dto.request.CreateArtsRequest;
+import art.sales.ArtsalesManagement.dto.request.FindAllArtRequest;
+import art.sales.ArtsalesManagement.dto.request.UpdateArtRequest;
 import art.sales.ArtsalesManagement.exception.ArtCannotBeFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -68,7 +68,14 @@ public class ArtServiceImpl implements ArtService{
 
     @Override
     public Art updateArtProfile(UpdateArtRequest updateArtRequest) throws ArtCannotBeFoundException {
+        return updateArt(updateArtRequest);
+    }
+
+
+
+    private Art updateArt(UpdateArtRequest updateArtRequest) throws ArtCannotBeFoundException {
         Optional<Art> foundArt = artRepository.findArtById(updateArtRequest.getArtId());
+
         if (foundArt.isPresent()) {
             if (updateArtRequest.getArtCategory() != null) {
                 foundArt.get().setArtCategory(updateArtRequest.getArtCategory());

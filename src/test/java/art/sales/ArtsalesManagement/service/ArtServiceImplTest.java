@@ -1,9 +1,9 @@
 package art.sales.ArtsalesManagement.service;
-import art.sales.ArtsalesManagement.dao.request.CreateArtsRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllArtRequest;
-import art.sales.ArtsalesManagement.dao.request.UpdateArtRequest;
-import art.sales.ArtsalesManagement.dto.model.Art;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.ArtType;
+import art.sales.ArtsalesManagement.dao.model.Art;
+import art.sales.ArtsalesManagement.dao.model.enumPackage.ArtType;
+import art.sales.ArtsalesManagement.dto.request.CreateArtsRequest;
+import art.sales.ArtsalesManagement.dto.request.FindAllArtRequest;
+import art.sales.ArtsalesManagement.dto.request.UpdateArtRequest;
 import art.sales.ArtsalesManagement.exception.ArtCannotBeFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

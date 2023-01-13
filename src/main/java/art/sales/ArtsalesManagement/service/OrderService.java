@@ -1,9 +1,9 @@
 package art.sales.ArtsalesManagement.service;
 
-import art.sales.ArtsalesManagement.dao.request.CreateOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.UpdateOrder;
-import art.sales.ArtsalesManagement.dto.model.Order;
+import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dto.request.CreateOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.FindAllOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.UpdateOrder;
 import org.springframework.data.domain.Page;
 
 public interface OrderService {
@@ -16,8 +16,5 @@ public interface OrderService {
     Order findById(Long id);
 
   Page<Order> findAllOrders(FindAllOrderRequest findAllOrder);
-
-//    String deleteOrderById(Long id);
-
     Order updateOrder(UpdateOrder updateOrder);
 }

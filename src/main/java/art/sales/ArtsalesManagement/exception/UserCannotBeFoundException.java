@@ -1,6 +1,5 @@
 package art.sales.ArtsalesManagement.exception;
 
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 

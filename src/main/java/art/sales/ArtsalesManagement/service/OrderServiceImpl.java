@@ -1,10 +1,10 @@
 package art.sales.ArtsalesManagement.service;
 
-import art.sales.ArtsalesManagement.dao.request.CreateOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.UpdateOrder;
-import art.sales.ArtsalesManagement.dto.model.Order;
-import art.sales.ArtsalesManagement.dto.repository.OrderRepository;
+import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dao.repository.OrderRepository;
+import art.sales.ArtsalesManagement.dto.request.CreateOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.FindAllOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.UpdateOrder;
 import art.sales.ArtsalesManagement.exception.OrderCannotBeFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

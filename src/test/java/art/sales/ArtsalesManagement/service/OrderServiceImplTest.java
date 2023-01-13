@@ -1,11 +1,12 @@
 package art.sales.ArtsalesManagement.service;
 
-import art.sales.ArtsalesManagement.dao.request.CreateOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.FindAllOrderRequest;
-import art.sales.ArtsalesManagement.dao.request.UpdateOrder;
-import art.sales.ArtsalesManagement.dto.model.Order;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
+import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dao.model.enumPackage.PaymentType;
 
+
+import art.sales.ArtsalesManagement.dto.request.CreateOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.FindAllOrderRequest;
+import art.sales.ArtsalesManagement.dto.request.UpdateOrder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

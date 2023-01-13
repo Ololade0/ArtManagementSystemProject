@@ -1,14 +1,13 @@
 package art.sales.ArtsalesManagement.service;
 
-import art.sales.ArtsalesManagement.dao.request.*;
-import art.sales.ArtsalesManagement.dao.response.CreateOrderResponse;
-import art.sales.ArtsalesManagement.dao.response.UpdateUserResponse;
-import art.sales.ArtsalesManagement.dao.response.UserLoginResponse;
-import art.sales.ArtsalesManagement.dto.model.Order;
-import art.sales.ArtsalesManagement.dto.model.Role;
-import art.sales.ArtsalesManagement.dto.model.User;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.PaymentType;
-import art.sales.ArtsalesManagement.dto.model.enumPackage.RoleType;
+import art.sales.ArtsalesManagement.dao.model.Order;
+import art.sales.ArtsalesManagement.dao.model.Role;
+import art.sales.ArtsalesManagement.dao.model.User;
+import art.sales.ArtsalesManagement.dao.model.enumPackage.PaymentType;
+import art.sales.ArtsalesManagement.dto.request.*;
+import art.sales.ArtsalesManagement.dto.response.CreateOrderResponse;
+import art.sales.ArtsalesManagement.dto.response.UpdateUserResponse;
+import art.sales.ArtsalesManagement.dto.response.UserLoginResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
